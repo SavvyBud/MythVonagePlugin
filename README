@@ -1,0 +1,66 @@
+Pre-requisite
+=============
+You need to install Vonage::Click2Call perl module. You can do so from cspan.
+For your convenience the Vonage::Click2Call.pm is included. You can create
+~/opt/site_perl folder and place it there. So the file path for the module will
+be
+
+~/opt/site_perl/Vonage/Click2Call.pm
+
+Install
+=======
+Step 1
+------
+You will need to create file ~/.vonage/phone_list with following format
+##########################################################################
+Short_Name	Index		Phone_Number 	Comments	
+##########################################################################
+Please note that the Short_Name and Phone_Numbers are the only two fields
+used currently.
+
+Step 2
+------
+Copy the vonage.pl script to ~/bin directory.
+
+Step 3
+------
+Generate the vonage.xml file from the ~/.vonage/phone_list file
+If you don't have ~/bin in your path append the following to your path:
+
+$ PATH=$PATH:~/bin # in your .bashrc 
+$ cd ~/.vonage
+$ vonage.pl > vonage.xml
+
+Step 4
+------
+Integrating into the mythtv menu: The mythtv is installed by default in the following folder (on fedora): "/usr/share/mythtv". The mainmenu.xml is the entry point for the mythTV GUI for building the menu. I added the following to the mainmenu.xml file:
+
+<button>
+<type>MOVIETIMES</type>
+<text>YouTube Favorites</text>
+<action>MENU youTube_plugin.xml</action>
+</button>;
+
+as a child node of mythmenu element
+
+Step 5
+------
+Creating the vonage plugin xml file link: create a soft link vonage.xml pointing to -> /home/mythtv/.vonage/vonage.xml
+
+cd /usr/share/mythtv
+sudo ln -s /home/mythtv/.vonage/vonage.xml
+
+Step 6
+------
+Final config step is to create a config file with your vonage user id 
+and password to allow your to authenticate to their click2call feature.
+The format of the config file [~/.vonage/config] is:
+
+login=
+password=
+call_from=
+
+
+That's it. Now when you are watching your MythTV and want to call someone
+you can navigate to the mythtv menu and select your contact to call.
+Vonage will make a call to your phone and then ring your contact.
